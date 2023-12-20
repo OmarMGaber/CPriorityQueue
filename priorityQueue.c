@@ -13,6 +13,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "compareFunctions.h"
+#include "toStringFunctions.h"
 #include "priorityQueue.h"
 #include <string.h>
 
@@ -46,16 +48,16 @@ void *resizePriorityQueue(PriorityQueue *pq) {
     return NULL;
 }
 
-void *top(PriorityQueue *pq) {
-    if (isEmpty(pq)) {
+void *pq_top(PriorityQueue *pq) {
+    if (pq_isEmpty(pq)) {
         REPORT_ERROR_AND_EXIT(EMPTY_PRIORITY_QUEUE_ERROR_MESSAGE, EXIT_FAILURE)
     }
 
     return pq->heapArray[0];
 }
 
-void pop(PriorityQueue *pq) {
-    if (isEmpty(pq)) {
+void pq_pop(PriorityQueue *pq) {
+    if (pq_isEmpty(pq)) {
         REPORT_ERROR_AND_EXIT(EMPTY_PRIORITY_QUEUE_ERROR_MESSAGE, EXIT_FAILURE)
     }
 
@@ -65,7 +67,7 @@ void pop(PriorityQueue *pq) {
     heapifyDown(pq, 0);
 }
 
-void push(PriorityQueue *pq, void *element) {
+void pq_push(PriorityQueue *pq, void *element) {
     if (hasReachedCapacity(pq))
         resizePriorityQueue(pq);
 
@@ -115,7 +117,7 @@ void printHeapTree(PriorityQueue *pq, char *(*toStringFunction)(void *)) {
     }
 }
 
-PriorityQueue *copy(PriorityQueue *pq) {
+PriorityQueue *pq_copy(PriorityQueue *pq) {
     PriorityQueue *copy = createPriorityQueueWithCapacity(pq->compare, pq->capacity);
     copy->size = pq->size;
     copy->indexOfLastElement = pq->indexOfLastElement;
@@ -126,12 +128,37 @@ PriorityQueue *copy(PriorityQueue *pq) {
     return copy;
 }
 
-void display(PriorityQueue *pq, char *(*toStringFunction)(void *)) {
-    printf("Priority Queue: %s\n", toString(pq, toStringFunction));
+char *pq_toStringOrdered(PriorityQueue *pq, char *(*toStringFunction)(void *)) {
+    PriorityQueue *copy = pq_copy(pq);
+    char *string = malloc(1); // 1 byte for the null terminator
+    ENSURE_NON_NULL(string, OUT_OF_MEMORY_ERROR_MESSAGE, EXIT_FAILURE)
+
+    string[0] = '\0';
+    while (!pq_isEmpty(copy)) {
+        char *elementString = toStringFunction(pq_top(copy));
+        string = realloc(string, strlen(string) + strlen(elementString) + 1);
+        ENSURE_NON_NULL(string, OUT_OF_MEMORY_ERROR_MESSAGE, EXIT_FAILURE)
+
+        strcat(string, elementString);
+        strcat(string, " ");
+        free(elementString);
+        pq_pop(copy);
+    }
+
+    pq_destroy(copy);
+    return string;
 }
 
-char *toString(PriorityQueue *pq, char *(*toStringFunction)(void *)) {
-    char *string = malloc(1);
+void pq_displayOrdered(PriorityQueue *pq, char *(*toStringFunction)(void *)) {
+    printf("Priority Queue: %s\n", pq_toStringOrdered(pq, toStringFunction));
+}
+
+void pq_display(PriorityQueue *pq, char *(*toStringFunction)(void *)) {
+    printf("Priority Queue: %s\n", pq_toString(pq, toStringFunction));
+}
+
+char *pq_toString(PriorityQueue *pq, char *(*toStringFunction)(void *)) {
+    char *string = malloc(1); // 1 byte for the null terminator
     ENSURE_NON_NULL(string, OUT_OF_MEMORY_ERROR_MESSAGE, EXIT_FAILURE)
 
     string[0] = '\0';
@@ -148,52 +175,7 @@ char *toString(PriorityQueue *pq, char *(*toStringFunction)(void *)) {
     return string;
 }
 
-void destroy(PriorityQueue *pq) {
+void pq_destroy(PriorityQueue *pq) {
     free(pq->heapArray);
     free(pq);
-}
-
-// toString functions
-char *toStringInt(void *element) {
-    char *string = malloc(12);
-    ENSURE_NON_NULL(string, OUT_OF_MEMORY_ERROR_MESSAGE, EXIT_FAILURE)
-
-    sprintf(string, "%d", *(int *) element);
-    return string;
-}
-
-char *toStringFloat(void *element) {
-    char *string = malloc(12);
-    ENSURE_NON_NULL(string, OUT_OF_MEMORY_ERROR_MESSAGE, EXIT_FAILURE)
-
-    sprintf(string, "%f", *(float *) element);
-    return string;
-}
-
-char *toStringDouble(void *element) {
-    char *string = malloc(12);
-    ENSURE_NON_NULL(string, OUT_OF_MEMORY_ERROR_MESSAGE, EXIT_FAILURE)
-
-    sprintf(string, "%lf", *(double *) element);
-    return string;
-}
-
-char *toStringLongLong(void *element) {
-    char *string = malloc(12);
-    ENSURE_NON_NULL(string, OUT_OF_MEMORY_ERROR_MESSAGE, EXIT_FAILURE)
-
-    sprintf(string, "%lld", *(long long *) element);
-    return string;
-}
-
-char *toStringShort(void *element) {
-    char *string = malloc(12);
-    ENSURE_NON_NULL(string, OUT_OF_MEMORY_ERROR_MESSAGE, EXIT_FAILURE)
-
-    sprintf(string, "%hd", *(short *) element);
-    return string;
-}
-
-char *toStringString(void *element) {
-    return *(char **) element;
 }

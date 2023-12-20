@@ -56,7 +56,7 @@ int greaterShort(const void *a, const void *b) {
 }
 
 int smallerChar(const void *a, const void *b) {
-    return (*(char *)a - *(char *)b);
+    return strcmp((char *) a, (char *) b);
 }
 
 int greaterChar(const void *a, const void *b) {

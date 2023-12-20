@@ -7,9 +7,7 @@
 
 #include <stdio.h>
 #include <malloc.h>
-#include "../Models/process.h"
 #include "compareFunctions.h"
-#include "../utilities.h"
 
 // priority queue exit codes and messages
 #define EMPTY_PRIORITY_QUEUE_ERROR_MESSAGE "Priority queue is empty."
@@ -27,7 +25,7 @@
 #define getLeftChildIndex(i) ((2 * i) + 1)
 #define getRightChildIndex(i) ((2 * i) + 2)
 #define hasHigherPriority(pq, parentIndex, childIndex) pq->compare(pq->heapArray[parentIndex], pq->heapArray[childIndex]) < 0
-#define isEmpty(priorityQueue) (priorityQueue->size == 0)
+#define pq_isEmpty(priorityQueue) (priorityQueue->size == 0)
 #define hasReachedCapacity(priorityQueue) (priorityQueue->size == priorityQueue->capacity)
 #define hasParent(i) (i > 0)
 #define hasLeftChild(priorityQueue, i) (getLeftChildIndex(i) < priorityQueue->size)
@@ -38,8 +36,6 @@
 #define SWAP_VALUES(priorityQueue, i, j) {void *temp = priorityQueue->heapArray[i]; \
                                     priorityQueue->heapArray[i] = priorityQueue->heapArray[j];               \
                                     priorityQueue->heapArray[j] = temp;}
-
-typedef char *(*ToStringFunction)(void *);
 
 typedef struct {
     void **heapArray;
@@ -54,34 +50,27 @@ PriorityQueue *createPriorityQueue(CompareFunction compare);
 
 PriorityQueue *createPriorityQueueWithCapacity(CompareFunction compare, size_t capacity);
 
-void push(PriorityQueue *pq, void *element);
+// pq_ prefix stands for priority queue functions to avoid name collisions
+void pq_push(PriorityQueue *pq, void *element);
 
-void *top(PriorityQueue *pq);
+void *pq_top(PriorityQueue *pq);
 
-void pop(PriorityQueue *pq);
+void pq_pop(PriorityQueue *pq);
 
-PriorityQueue *copy(PriorityQueue *pq);
+PriorityQueue *pq_copy(PriorityQueue *pq);
 
-char *toString(PriorityQueue *pq, char *(*toStringFunction)(void *));
+char *pq_toString(PriorityQueue *pq, char *(*toStringFunction)(void *));
 
-void display(PriorityQueue *pq, char *(*toStringFunction)(void *));
+char *pq_toStringOrdered(PriorityQueue *pq, char *(*toStringFunction)(void *));
 
+void pq_display(PriorityQueue *pq, char *(*toStringFunction)(void *));
+
+void pq_displayOrdered(PriorityQueue *pq, char *(*toStringFunction)(void *));
+
+// TODO: implement heapSort
 //void heapSort(void *array, size_t size, size_t sizeOfElement, CompareFunction compare);
 
-void destroy(PriorityQueue *pq);
-
-// print functions and toString functions
-char *toStringInt(void *a);
-
-char *toStringString(void *a);
-
-char *toStringFloat(void *a);
-
-char *toStringLongLong(void *a);
-
-char *toStringDouble(void *a);
-
-char *toStringShort(void *a);
+void pq_destroy(PriorityQueue *pq);
 
 void printHeapTree(PriorityQueue *pq, char *(*toStringFunction)(void *));
 
