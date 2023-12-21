@@ -2,8 +2,8 @@
 // Created by Omar on 06/12/2023.
 //
 
-#ifndef CPU_SCHEDULING_SIMULATOR_COMPAREFUNCTIONS_H
-#define CPU_SCHEDULING_SIMULATOR_COMPAREFUNCTIONS_H
+#ifndef CPRIORITYQUEUE_COMPAREFUNCTIONS_H
+#define CPRIORITYQUEUE_COMPAREFUNCTIONS_H
 
 typedef int (*CompareFunction)(const void *, const void *);
 
@@ -35,4 +35,4 @@ int smallerShort(const void *a, const void *b);
 
 int smallerChar(const void *a, const void *b);
 
-#endif //CPU_SCHEDULING_SIMULATOR_COMPAREFUNCTIONS_H
+#endif //CPRIORITYQUEUE_COMPAREFUNCTIONS_H

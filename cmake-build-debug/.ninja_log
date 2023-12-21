@@ -1,8 +1,0 @@
-# ninja log v5
-4	113	7247828622695408	CMakeFiles/CPriorityQueue.dir/compareFunctions.c.obj	6e68e4cd9c61cd23
-5	731	7248442515808559	CMakeFiles/CPriorityQueue.dir/test_priorityQueue.c.obj	35a1322b5ffb1c80
-13	199	7248438070573914	CMakeFiles/CPriorityQueue.dir/priorityQueue.c.obj	d37f697070cbb72a
-14	149	7247827383336035	CMakeFiles/CPriorityQueue.dir/toStringFunctions.c.obj	74c97b1eb798c1e0
-692	864	7248442960026485	CPriorityQueue.exe	b2fb395d6e2fc09c
-0	318	7248443061064596	build.ninja	ac6ebe15353f13aa
-2	692	7248442958376517	CMakeFiles/CPriorityQueue.dir/test/test_priorityQueue.c.obj	b6bddf7a38453dd

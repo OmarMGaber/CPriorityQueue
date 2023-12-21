@@ -2,8 +2,8 @@
 // Created by Omar on 03/12/2023.
 //
 
-#ifndef CPU_SCHEDULING_SIMULATOR_PRIORITY_QUEUE_H
-#define CPU_SCHEDULING_SIMULATOR_PRIORITY_QUEUE_H
+#ifndef CPRIORITYQUEUE_PRIORITY_QUEUE_H
+#define CPRIORITYQUEUE_PRIORITY_QUEUE_H
 
 #include <stdio.h>
 #include <malloc.h>
@@ -75,4 +75,4 @@ void pq_destroy(PriorityQueue *pq);
 void printHeapTree(PriorityQueue *pq, char *(*toStringFunction)(void *));
 
 
-#endif //CPU_SCHEDULING_SIMULATOR_PRIORITY_QUEUE_H
+#endif //CPRIORITYQUEUE_PRIORITY_QUEUE_H
