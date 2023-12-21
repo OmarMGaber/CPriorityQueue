@@ -11,7 +11,7 @@
 
 // priority queue exit codes and messages
 #define EMPTY_PRIORITY_QUEUE_ERROR_MESSAGE "Priority queue is empty."
-#define OUT_OF_MEMORY_ERROR_MESSAGE "Out of memory."
+#define OUT_OF_MEMORY_ERROR_MESSAGE "Error allocating memory for priority queue."
 #define REPORT_ERROR_AND_EXIT(MESSAGE, EXIT_CODE) fprintf(stderr, MESSAGE); \
                                                                 exit(EXIT_CODE);
 #define ENSURE_NON_NULL(ptr, MESSAGE, EXIT_CODE) if (ptr == NULL) { \

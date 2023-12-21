@@ -40,12 +40,10 @@ PriorityQueue *createPriorityQueueWithCapacity(CompareFunction compare, size_t c
     return pq;
 }
 
-void *resizePriorityQueue(PriorityQueue *pq) {
+void resizePriorityQueue(PriorityQueue *pq) {
     pq->capacity *= 2;
     pq->heapArray = realloc(pq->heapArray, pq->capacity * sizeof(void *));
     ENSURE_NON_NULL(pq->heapArray, OUT_OF_MEMORY_ERROR_MESSAGE, EXIT_FAILURE)
-
-    return NULL;
 }
 
 void *pq_top(PriorityQueue *pq) {
